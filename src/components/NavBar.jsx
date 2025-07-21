@@ -57,7 +57,7 @@ const NavBar = () => {
         </button>
         {/* Mobile Drawer with Animation */}
         <div
-          className={`fixed inset-0 z-50 md:hidden ${isOpen ? "block" : "hidden"}`}
+          className={`fixed inset-0 h-[95vh] top-15 z-50 md:hidden ${isOpen ? "block" : "hidden"}`}
         >
           <div
             className="absolute inset-0 bg-black bg-opacity-40 mobile-overlay"
@@ -94,16 +94,7 @@ const NavBar = () => {
               ThinkLikeDev.
             </Link>
             {/* Close Button at Top Right */}
-            <button
-              className="absolute top-2 right-2 text-3xl p-2 rounded-full hover:bg-neutral-200 transition-colors"
-              onClick={closeMenu}
-              aria-label="Close navigation menu"
-              style={{
-                zIndex: 100
-              }}
-            >
-              <FiX />
-            </button>
+            
             <nav className="flex flex-col gap-4 mt-10">
               {menu.map((item, index) => (
                 <Link

@@ -9,20 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Optimized Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet" />
 
     <!-- Viewport and Compatibility -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!-- Title -->
-    <title>Your App Name</title>
+    <!-- SEO Boost: TITLE and Description -->
+    <title>ThinkLikeDev – Developer Jobs, Blogs & Free Coding Resources</title>
+    <meta
+      name="description"
+      content="ThinkLikeDev helps developers find jobs, read coding blogs, and access free coding resources. Boost your tech career with curated opportunities and insightful articles." />
+
+    <!-- SEO Boost: Canonical URL -->
+    <link rel="canonical" href="https://yourdomain.com/" />
+
+    <!-- SEO Boost: Open Graph Meta (for social sharing) -->
+    <meta property="og:title" content="ThinkLikeDev – Developer Jobs, Blogs & Free Coding Resources" />
+    <meta property="og:description" content="Find developer jobs, top blogs, and free resources at ThinkLikeDev. Advance your coding career now." />
+    <meta property="og:url" content="https://yourdomain.com/" />
+    <meta property="og:type" content="website" />
+    <!-- Optional: Add an image for social preview -->
+    <!--<meta property="og:image" content="https://yourdomain.com/preview.jpg" />-->
+
+    <!-- SEO Boost: Twitter Card Meta -->
+    <meta name="twitter:title" content="ThinkLikeDev – Developer Jobs, Blogs & Coding Resources" />
+    <meta name="twitter:description" content="Explore tech jobs, helpful blog articles, and practical resources for developers at ThinkLikeDev." />
+    <!--<meta name="twitter:image" content="https://yourdomain.com/preview.jpg" />-->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- SEO Boost: Robots Meta -->
+    <meta name="robots" content="index, follow" />
 
     <!-- Optional: Smooth scroll behavior -->
-    
 
     <!-- Optional: Prevent layout shift while fonts load -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" />
@@ -32,9 +51,25 @@
         rel="stylesheet"
       />
     </noscript>
+    
+    <!-- SEO Boost: Site Manifest (optional, improves mobile experience) -->
+    <!--<link rel="manifest" href="/site.webmanifest">-->
+
+    <!-- SEO Boost: Structured Data (optional, for rich results) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "ThinkLikeDev",
+        "url": "https://yourdomain.com/",
+        "description": "Developer jobs, tech blogs, and free resources for coding professionals and learners."
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    
+    <main id="root"></main>
+    
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
