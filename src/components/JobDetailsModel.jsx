@@ -7,7 +7,7 @@ const JobDetailsModal = ({ job, show, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/20 backdrop-blur-xs bg-opacity-40 z-50">
-      <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-lg relative">
+      <div className="bg-white rounded-xl p-6 w-full max-lg:w-11/12 max-w-md shadow-lg relative">
         <button
           className="absolute top-5 cursor-pointer right-5 text-xl font-bold"
           onClick={onClose}

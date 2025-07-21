@@ -1,8 +1,9 @@
+// src/components/FreeResources.jsx
 import React, { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { BsBook, BsCode, BsPlug, BsFilm } from "react-icons/bs";
 
-// Mock resource data
+// Resource mock data
 const resourceList = [
   {
     title: "JavaScript Essentials (Course)",
@@ -10,7 +11,8 @@ const resourceList = [
     categoryIcon: <BsCode />,
     link: "#",
     description: "Master JavaScript with hands-on video tutorials and projects.",
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Developer Productivity Cheatsheet",
@@ -18,7 +20,8 @@ const resourceList = [
     categoryIcon: <BsBook />,
     link: "#",
     description: "A concise guide to speed up your workflow as a coder.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Open-Source CLI Tools",
@@ -26,7 +29,8 @@ const resourceList = [
     categoryIcon: <BsPlug />,
     link: "#",
     description: "A curated collection of must-have developer CLI utilities.",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Responsive Web Design (Course)",
@@ -34,7 +38,8 @@ const resourceList = [
     categoryIcon: <BsFilm />,
     link: "#",
     description: "Free video course to make websites work on any device.",
-    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "Python Crash Guide",
@@ -42,7 +47,8 @@ const resourceList = [
     categoryIcon: <BsBook />,
     link: "#",
     description: "Quickly pick up the Python basics and syntax.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
   },
   {
     title: "GitHub Actions Toolkit",
@@ -50,11 +56,13 @@ const resourceList = [
     categoryIcon: <BsPlug />,
     link: "#",
     description: "Boost CI/CD workflows with ready-to-use GitHub Actions.",
-    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=800&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=800&auto=format&fit=crop",
   },
-  // ...add more as needed
+  // ...add more if you wish
 ];
 
+// Controls how many show per page
 const RESOURCES_PER_PAGE = 8;
 const resourceTypes = ["All", "Course", "E-Book", "Tool"];
 
@@ -62,51 +70,65 @@ const FreeResources = () => {
   const [page, setPage] = useState(1);
   const [typeFilter, setTypeFilter] = useState("All");
 
+  // Filtering logic
   const filteredResources =
     typeFilter === "All"
       ? resourceList
-      : resourceList.filter(r => r.type === typeFilter);
+      : resourceList.filter((r) => r.type === typeFilter);
 
-  const totalPages = Math.ceil(filteredResources.length / RESOURCES_PER_PAGE);
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredResources.length / RESOURCES_PER_PAGE)
+  );
   const currentResources = filteredResources.slice(
     (page - 1) * RESOURCES_PER_PAGE,
     page * RESOURCES_PER_PAGE
   );
 
+  // Ensures page doesn't get out of bounds
+  React.useEffect(() => {
+    if (page > totalPages) setPage(1);
+  }, [typeFilter, totalPages, page]);
+
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-white text-black flex flex-col">
       {/* Header */}
-      <div className="w-full bg-black py-16 flex flex-col items-center mb-8 px-4">
-        <h1 className="text-white text-4xl font-bold mb-3">
+      <header className="w-full bg-black pt-14 pb-10 flex flex-col items-center mb-7 px-2 sm:px-6">
+        <h1 className="text-white text-xl sm:text-4xl md:text-5xl font-bold mb-3 text-center">
           Free Developer Resources
         </h1>
-        <p className="text-neutral-300 text-base max-w-xl text-center">
+        <p className="text-neutral-300 text-sm  max-w-xl text-center">
           Discover high-quality free courses, e-books, and productivity tools to boost your developer journey. Curated and regularly updated for you!
         </p>
-      </div>
+      </header>
 
       {/* Filter Controls */}
-      <div className="w-full mx-auto px-10 flex gap-3 mb-8">
-        {resourceTypes.map(t => (
+      <section className="w-full flex flex-wrap gap-2 sm:gap-3 justify-center px-2 sm:px-6 mb-7">
+        {resourceTypes.map((t) => (
           <button
             key={t}
-            onClick={() => { setTypeFilter(t); setPage(1); }}
-            className={`px-4 py-2 text-xs cursor-pointer rounded border font-medium transition
-              ${typeFilter === t
-                ? "bg-black text-white border-black"
-                : "bg-white border-neutral-300 text-black hover:bg-neutral-100"}`}
+            onClick={() => {
+              setTypeFilter(t);
+              setPage(1);
+            }}
+            className={`px-4 py-2 text-xs md:text-sm rounded border font-medium focus:outline-none transition-all
+                ${
+                  typeFilter === t
+                    ? "bg-black text-white border-black"
+                    : "bg-white border-neutral-300 text-black hover:bg-neutral-100"
+                }`}
           >
             {t}
           </button>
         ))}
-      </div>
+      </section>
 
       {/* Resources Grid */}
-      <div className="w-full mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <main className="mx-auto w-full  grid gap-6 sm:gap-7 px-10 max-lg:px-5 sm:px-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 mb-10">
         {currentResources.map((res, i) => (
           <div
             key={i}
-            className="flex flex-col bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden hover:shadow transition h-[400px]"
+            className="flex flex-col bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow h-[410px] md:h-[410px]"
           >
             <div
               className="h-40 w-full bg-cover bg-center"
@@ -118,8 +140,10 @@ const FreeResources = () => {
                   <span className="text-lg">{res.categoryIcon}</span>
                   <span>{res.type}</span>
                 </div>
-                <h2 className="text-lg font-semibold mb-1 leading-tight">{res.title}</h2>
-                <p className="text-xs text-neutral-700 mb-4 line-clamp-3">{res.description}</p>
+                <h2 className="text-lg font-semibold mb-1">{res.title}</h2>
+                <p className="text-xs text-neutral-700 mb-4 line-clamp-3">
+                  {res.description}
+                </p>
               </div>
               <a
                 href={res.link}
@@ -133,24 +157,36 @@ const FreeResources = () => {
           </div>
         ))}
         {currentResources.length === 0 && (
-          <div className="col-span-full py-16 text-lg text-center text-neutral-400">No resources found.</div>
+          <div className="col-span-full py-16 text-lg text-center text-neutral-400">
+            No resources found.
+          </div>
         )}
-      </div>
+      </main>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-2 mb-8">
+      <nav className="flex justify-center items-center gap-1 mb-7 flex-wrap">
         <button
           onClick={() => setPage(page - 1)}
           disabled={page === 1}
-          className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${page === 1 ? "opacity-40 cursor-default" : ""}`}
+          className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition
+            ${
+              page === 1 ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
+            }`}
+          aria-label="Previous Page"
         >
-          <IoIosArrowBack />
+          <IoIosArrowBack size={20} />
         </button>
         {Array.from({ length: totalPages }).map((_, i) => (
           <button
             key={i}
             onClick={() => setPage(i + 1)}
-            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border ${page === i + 1 ? "bg-black text-white border-black" : "bg-white border-neutral-300 text-black hover:bg-neutral-100"}`}
+            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border transition
+              ${
+                page === i + 1
+                  ? "bg-black text-white border-black"
+                  : "bg-white border-neutral-300 text-black hover:bg-neutral-100"
+              }`}
+            aria-current={page === i + 1 ? "page" : undefined}
           >
             {i + 1}
           </button>
@@ -158,11 +194,17 @@ const FreeResources = () => {
         <button
           onClick={() => setPage(page + 1)}
           disabled={page === totalPages}
-          className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${page === totalPages ? "opacity-40 cursor-default" : ""}`}
+          className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition
+            ${
+              page === totalPages
+                ? "opacity-40 cursor-not-allowed"
+                : "cursor-pointer"
+            }`}
+          aria-label="Next Page"
         >
-          <IoIosArrowForward />
+          <IoIosArrowForward size={20} />
         </button>
-      </div>
+      </nav>
     </div>
   );
 };

@@ -58,23 +58,25 @@ const BlogsPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-white text-black flex flex-col">
       {/* Header */}
-      <div className="w-full bg-black py-16 flex flex-col items-center mb-6 px-4">
-        <h1 className="text-white text-4xl font-bold mb-2">Developer Blogs & Guides</h1>
-        <p className="text-neutral-300 text-base max-w-xl text-center">
+      <div className="w-full bg-black py-12 sm:py-16 flex flex-col items-center mb-6 px-3 sm:px-4">
+        <h1 className="text-white text-xl sm:text-4xl font-bold mb-2 text-center">
+          Developer Blogs & Guides
+        </h1>
+        <p className="text-neutral-300 text-sm max-w-xl text-center">
           Dive into actionable tutorials, dev stories, and tech news curated for your growth.
         </p>
       </div>
 
       {/* Search Bar */}
-      <div className="flex justify-center mb-8 px-10">
-        <div className="w-full  flex items-center border border-neutral-300 rounded-lg px-4 py-2 bg-white">
-          <CiSearch className="text-neutral-500 text-lg mr-2" />
+      <div className="flex justify-center mb-8 px-5 sm:px-6">
+        <div className="w-full max-w-xl flex items-center border border-neutral-300 rounded-lg px-3 py-2 bg-white shadow-sm">
+          <CiSearch className="text-neutral-500 text-xl mr-2" />
           <input
             type="text"
             placeholder="Search blogs by title, category, or keywords..."
-            className="w-full text-sm focus:outline-none"
+            className="w-full text-sm focus:outline-none bg-transparent"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -85,47 +87,56 @@ const BlogsPage = () => {
       </div>
 
       {/* Blog Grid */}
-      <div className="w-full mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-        {currentBlogs.map((post, i) => (
-          <div
-            key={i}
-            className="flex flex-col bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden hover:shadow transition h-[440px]"
-          >
+      <div className="w-full flex flex-col items-center px-5 sm:px-10">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8 mb-12">
+          {currentBlogs.map((post, i) => (
             <div
-              className="h-44 w-full bg-cover bg-center"
-              style={{ backgroundImage: `url(${post.image})` }}
-            />
-            <div className="flex-1 flex flex-col justify-between p-5">
-              <div>
-                <div className="text-neutral-500 text-xs uppercase mb-1">
-                  {post.category} &nbsp;|&nbsp; {post.date}
+              key={i}
+              className="flex flex-col bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden hover:shadow transition h-[420px] sm:h-[440px]"
+            >
+              <div
+                className="h-40 sm:h-44 w-full bg-cover bg-center"
+                style={{ backgroundImage: `url(${post.image})` }}
+              />
+              <div className="flex-1 flex flex-col justify-between p-4 sm:p-5">
+                <div>
+                  <div className="text-neutral-500 text-xs uppercase mb-1">
+                    {post.category} &nbsp;|&nbsp; {post.date}
+                  </div>
+                  <h2 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2 leading-snug line-clamp-2">
+                    {post.title}
+                  </h2>
+                  <p className="text-xs text-neutral-700 mb-2 sm:mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
                 </div>
-                <h2 className="text-lg font-semibold mb-2 leading-snug">
-                  {post.title}
-                </h2>
-                <p className="text-xs text-neutral-700 mb-4 line-clamp-3">{post.excerpt}</p>
+                <a
+                  href={post.link}
+                  className="inline-block mt-auto py-1.5 px-4 text-xs font-semibold border border-black rounded hover:bg-black hover:text-white transition w-fit"
+                >
+                  Read More
+                </a>
               </div>
-              <a
-                href={post.link}
-                className="inline-block mt-auto py-2 px-4 text-xs font-semibold border border-black rounded hover:bg-black hover:text-white transition w-fit"
-              >
-                Read More
-              </a>
             </div>
-          </div>
-        ))}
-        {currentBlogs.length === 0 && (
-          <div className="col-span-full py-16 text-lg text-center text-neutral-400">No blogs found.</div>
-        )}
+          ))}
+          {currentBlogs.length === 0 && (
+            <div className="col-span-full py-16 text-lg text-center text-neutral-400">
+              No blogs found.
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mb-8">
+        <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 mb-10 sm:mb-12">
           <button
             onClick={() => setPage(page - 1)}
             disabled={page === 1}
-            className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${page === 1 ? "opacity-40 cursor-default" : ""}`}
+            className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${
+              page === 1 ? "opacity-40 cursor-not-allowed" : ""
+            }`}
+            aria-label="Previous page"
           >
             <IoIosArrowBack />
           </button>
@@ -133,7 +144,12 @@ const BlogsPage = () => {
             <button
               key={i}
               onClick={() => setPage(i + 1)}
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border ${page === i + 1 ? "bg-black text-white border-black" : "bg-white border-neutral-300 text-black hover:bg-neutral-100"}`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border ${
+                page === i + 1
+                  ? "bg-black text-white border-black"
+                  : "bg-white border-neutral-300 text-black hover:bg-neutral-100"
+              }`}
+              aria-current={page === i + 1 ? "page" : undefined}
             >
               {i + 1}
             </button>
@@ -141,7 +157,10 @@ const BlogsPage = () => {
           <button
             onClick={() => setPage(page + 1)}
             disabled={page === totalPages}
-            className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${page === totalPages ? "opacity-40 cursor-default" : ""}`}
+            className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${
+              page === totalPages ? "opacity-40 cursor-not-allowed" : ""
+            }`}
+            aria-label="Next page"
           >
             <IoIosArrowForward />
           </button>

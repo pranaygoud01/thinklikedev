@@ -8,7 +8,7 @@ import { BsBuilding, BsGeoAlt } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import JobDetailsModal from "../components/JobDetailsModel";
 
-// Mock job data with description for the modal
+// Mock job data
 const mockJobs = [
   {
     title: "Frontend Developer",
@@ -90,12 +90,10 @@ const mockJobs = [
     description:
       "Define product vision and strategy, lead cross-functional teams, and launch innovative products to market.",
   },
-  // Repeat as needed...
+  // ...repeat if you want more jobs for pagination
 ];
 
 const JOBS_PER_PAGE = 8;
-
-
 
 const FindJobs = () => {
   const [page, setPage] = useState(1);
@@ -124,37 +122,37 @@ const FindJobs = () => {
   }, [search]);
 
   return (
-    <div className="min-h-screen bg-white text-black px-0 py-0">
+    <div className="min-h-screen bg-white text-black">
       {/* Header */}
-      <div className="w-full bg-black py-16 px-0 flex flex-col items-center justify-center mb-8">
-        <h1 className="text-white text-4xl font-bold mb-2">
+      <div className="w-full bg-black py-12 sm:py-16 flex flex-col items-center justify-center mb-8">
+        <h1 className="text-xl sm:text-3xl md:text-4xl font-bold mb-2 text-white text-center">
           Find Your Next Tech Opportunity
         </h1>
-        <p className="text-neutral-300 text-sm">
+        <p className="text-neutral-300 text-xs sm:text-sm text-center px-2">
           Curated roles, real companies, updated often. Start applying today.
         </p>
       </div>
       {/* Main Content */}
-      <div className="w-full mx-auto px-10">
+      <div className="w-full  mx-auto px-4 sm:px-6 lg:px-10">
         {/* Results count and Search */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-          <div className="flex w-1/2 items-center rounded-lg border border-neutral-300 px-4 py-2">
-            <CiSearch className="text-neutral-500 mr-2" />
+        <div className="flex flex-col gap-3 md:gap-4 md:flex-row md:items-center md:justify-between mb-6">
+          <div className="flex w-full md:w-1/2 items-center rounded-lg border border-neutral-300 px-3 py-2 sm:px-4 bg-white">
+            <CiSearch className="text-neutral-500 mr-2 text-lg" />
             <input
               type="text"
-              className="w-full text-sm outline-0"
+              className="w-full text-sm outline-0 bg-transparent"
               placeholder="Search jobs, companies, or locations..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <span className="text-neutral-700 text-sm font-semibold">
+          <span className="text-neutral-700 text-xs sm:text-sm font-semibold">
             {filteredJobs.length} jobs found
           </span>
         </div>
 
         {/* Jobs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-10">
           {currentJobs.length === 0 && (
             <div className="col-span-full text-center text-neutral-400 py-12">
               No jobs found matching your search.
@@ -163,18 +161,18 @@ const FindJobs = () => {
           {currentJobs.map((job, idx) => (
             <div
               key={idx}
-              className="flex flex-col justify-between bg-neutral-50 border border-neutral-200 rounded-xl p-6 hover:shadow transition h-[310px]"
+              className="flex flex-col justify-between bg-neutral-50 border border-neutral-200 rounded-xl p-4 sm:p-6 hover:shadow transition"
             >
               <div>
                 <div className="flex items-center gap-3 mb-3">
                   <img
                     src={job.logo}
                     alt={job.company}
-                    className="w-8 h-8 rounded-full border"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border"
                   />
                   <span className="font-bold text-sm">{job.company}</span>
                 </div>
-                <h2 className="text-lg font-semibold mb-2 leading-tight">
+                <h2 className="text-base sm:text-lg font-semibold mb-2 leading-tight">
                   {job.title}
                 </h2>
                 <div className="flex items-center text-xs text-neutral-500 gap-2 mb-1">
@@ -186,7 +184,7 @@ const FindJobs = () => {
                   {job.type}
                 </div>
               </div>
-              <div className="mt-6 flex items-center justify-between">
+              <div className="mt-5 sm:mt-6 flex items-center justify-between">
                 <span className="text-xs text-neutral-400">{job.posted}</span>
                 <button
                   className="flex items-center gap-1 text-xs font-medium hover:text-blue-600 hover:underline transition"
@@ -204,7 +202,7 @@ const FindJobs = () => {
 
         {/* Pagination controls */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mb-8">
+          <div className="flex flex-wrap justify-center items-center gap-2 mb-8">
             <button
               onClick={() => setPage(page - 1)}
               disabled={page === 1}
