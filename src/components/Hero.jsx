@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import React from "react";
 
 const Hero = () => {
@@ -17,9 +18,9 @@ const Hero = () => {
             is your all-in-one platform to find the latest job opportunities,
             access valuable free resources, and read engaging blogs tailored just for developers.
           </p>
-          <button className="text-white mt-6 w-fit sm:mt-5 bg-black px-6 py-2 text-xs rounded hover:bg-neutral-800 transition">
+          <Link to="/findjobs" className="text-white mt-6 w-fit sm:mt-5 bg-black px-6 py-2 text-xs rounded hover:bg-neutral-800 transition">
             Get Started
-          </button>
+          </Link>
         </div>
       </div>
       <div

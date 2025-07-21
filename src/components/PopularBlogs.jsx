@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import React from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
@@ -43,7 +44,7 @@ const PopularBlogs = () => {
             <br /> Before you forget to do it.
           </p>
         </div>
-        <button className="border border-white px-4 py-2 mt-4 md:mt-0">See More</button>
+        <Link to="/blogs" className="border text-xs md:text-sm rounded-md border-white px-4 py-2 mt-4 md:mt-0">See More</Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-6 lg:mt-10 gap-6 lg:gap-8">
         {blogs.map((item, index) => (

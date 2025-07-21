@@ -152,7 +152,7 @@ const FindJobs = () => {
         </div>
 
         {/* Jobs Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-6 mb-10">
           {currentJobs.length === 0 && (
             <div className="col-span-full text-center text-neutral-400 py-12">
               No jobs found matching your search.

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { BsBuilding, BsGeoAlt } from "react-icons/bs";
+import JobDetailsModal from "./JobDetailsModel";
+import { Link } from "@tanstack/react-router";
 
 const jobs = [
   {
@@ -38,6 +40,8 @@ const jobs = [
 ];
 
 const ExploreJobs = () => {
+    const [selectedJob, setSelectedJob] = useState(null);
+    const [showModal, setShowModal] = useState(false);
   return (
     <div className="w-full bg-white max-lg:mt-5 text-black p-4 sm:p-8 md:p-10">
       {/* Header */}
@@ -50,9 +54,9 @@ const ExploreJobs = () => {
             Find Your Next Opportunity
           </p>
         </div>
-        <button className="border border-black text-sm sm:text-base px-3 sm:px-4 py-2 rounded hover:bg-neutral-100 transition-all">
+        <Link to="/findjobs" className="border border-black text-xs sm:text-base px-3 sm:px-4 py-2 rounded hover:bg-neutral-100 transition-all">
           View All Jobs
-        </button>
+        </Link>
       </div>
       {/* Jobs Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 md:gap-8">
@@ -63,10 +67,16 @@ const ExploreJobs = () => {
           >
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <img src={job.logo} alt={job.company} className="w-8 h-8 rounded-full border" />
+                <img
+                  src={job.logo}
+                  alt={job.company}
+                  className="w-8 h-8 rounded-full border"
+                />
                 <span className="font-bold text-sm">{job.company}</span>
               </div>
-              <h2 className="text-base sm:text-lg font-semibold mb-2 break-words">{job.title}</h2>
+              <h2 className="text-base sm:text-lg font-semibold mb-2 break-words">
+                {job.title}
+              </h2>
               <div className="flex items-center text-xs text-neutral-500 gap-2 mb-1">
                 <BsGeoAlt className="mr-1" />
                 {job.location}
@@ -78,13 +88,24 @@ const ExploreJobs = () => {
             </div>
             <div className="mt-6 flex items-center justify-between">
               <span className="text-xs text-neutral-400">{job.posted}</span>
-              <button className="flex items-center gap-1 text-xs sm:text-sm font-medium hover:text-blue-600 transition-all hover:underline px-2 py-1">
+              <button
+                className="flex items-center gap-1 text-xs font-medium hover:text-blue-600 hover:underline transition"
+                onClick={() => {
+                  setSelectedJob(job);
+                  setShowModal(true);
+                }}
+              >
                 View Details <IoIosArrowRoundForward className="text-lg" />
               </button>
             </div>
           </div>
         ))}
       </div>
+      <JobDetailsModal
+        job={selectedJob}
+        show={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   );
 };

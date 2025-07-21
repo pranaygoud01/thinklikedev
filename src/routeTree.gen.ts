@@ -14,6 +14,7 @@ import { Route as FindjobsRouteImport } from './routes/findjobs'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIdRouteImport } from './routes/blog/$id'
 
 const FreeresourcesRoute = FreeresourcesRouteImport.update({
   id: '/freeresources',
@@ -40,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIdRoute = BlogIdRouteImport.update({
+  id: '/blog/$id',
+  path: '/blog/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/blogs': typeof BlogsRoute
   '/findjobs': typeof FindjobsRoute
   '/freeresources': typeof FreeresourcesRoute
+  '/blog/$id': typeof BlogIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/blogs': typeof BlogsRoute
   '/findjobs': typeof FindjobsRoute
   '/freeresources': typeof FreeresourcesRoute
+  '/blog/$id': typeof BlogIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,27 @@ export interface FileRoutesById {
   '/blogs': typeof BlogsRoute
   '/findjobs': typeof FindjobsRoute
   '/freeresources': typeof FreeresourcesRoute
+  '/blog/$id': typeof BlogIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/blogs' | '/findjobs' | '/freeresources'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/blogs'
+    | '/findjobs'
+    | '/freeresources'
+    | '/blog/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/blogs' | '/findjobs' | '/freeresources'
-  id: '__root__' | '/' | '/about' | '/blogs' | '/findjobs' | '/freeresources'
+  to: '/' | '/about' | '/blogs' | '/findjobs' | '/freeresources' | '/blog/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/blogs'
+    | '/findjobs'
+    | '/freeresources'
+    | '/blog/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +99,7 @@ export interface RootRouteChildren {
   BlogsRoute: typeof BlogsRoute
   FindjobsRoute: typeof FindjobsRoute
   FreeresourcesRoute: typeof FreeresourcesRoute
+  BlogIdRoute: typeof BlogIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/$id': {
+      id: '/blog/$id'
+      path: '/blog/$id'
+      fullPath: '/blog/$id'
+      preLoaderRoute: typeof BlogIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +155,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogsRoute: BlogsRoute,
   FindjobsRoute: FindjobsRoute,
   FreeresourcesRoute: FreeresourcesRoute,
+  BlogIdRoute: BlogIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

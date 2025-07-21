@@ -77,7 +77,7 @@ const NavBar = () => {
               style={{
                 position: "absolute",
                 left: "0px",
-                bottom: "40px",
+                bottom: "90px",
                 backgroundColor: "black",
                 color: "white",
                 padding: "8px 12px",
@@ -95,7 +95,7 @@ const NavBar = () => {
             </Link>
             {/* Close Button at Top Right */}
             
-            <nav className="flex flex-col gap-4 mt-10">
+            <nav className="flex flex-col gap-4 mt-3">
               {menu.map((item, index) => (
                 <Link
                   to={item === "Home" ? "/" : `/${item.toLowerCase().replace(/\s+/g, "")}`}

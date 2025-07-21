@@ -55,7 +55,7 @@ const About = () => {
 
       {/* Image Section */}
       <div
-        className="w-full lg:w-5/12 h-64 sm:h-80 md:h-[80vh] sticky top-0 bg-center bg-no-repeat bg-cover rounded-md shadow-lg"
+        className="w-full lg:w-5/12 h-64 sm:h-80 md:h-[80vh] sticky top-25 bg-center bg-no-repeat bg-cover rounded-md shadow-lg"
         style={{
           backgroundImage:
             "url('https://images.unsplash.com/photo-1681066470612-36021f8da3d6?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
