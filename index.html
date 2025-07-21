@@ -11,65 +11,68 @@
     <!-- Optimized Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet" />
 
-    <!-- Viewport and Compatibility -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- SEO Meta Tags -->
+    <title>ThinkLikeDev | Developer Jobs, Coding Blogs & Free Resources</title>
+    <meta name="description" content="Advance your coding career with ThinkLikeDev: developer jobs, expert tech blogs, and top free coding resources. Start here for tech success." />
+    <meta name="keywords" content="developer jobs, coding jobs, programming jobs, tech jobs, remote developer jobs, software development jobs, developer blog, coding blogs, free coding resources, learn to code, programming tutorials, developer community, tech career advice" />
 
-    <!-- SEO Boost: TITLE and Description -->
-    <title>ThinkLikeDev</title>
-    <meta
-      name="description"
-      content="ThinkLikeDev helps developers find jobs, read coding blogs, and access free coding resources. Boost your tech career with curated opportunities and insightful articles." />
-
-    <!-- SEO Boost: Canonical URL -->
+    <!-- Canonical Tag -->
     <link rel="canonical" href="https://thinklikedev.studio/" />
 
-    <!-- SEO Boost: Open Graph Meta (for social sharing) -->
-    <meta property="og:title" content="ThinkLikeDev – Developer Jobs, Blogs & Free Coding Resources" />
-    <meta property="og:description" content="Find developer jobs, top blogs, and free resources at ThinkLikeDev. Advance your coding career now." />
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Developer Jobs, Coding Blogs & Free Resources | ThinkLikeDev" />
+    <meta property="og:description" content="Find the best developer jobs, coding blogs, and free coding resources. Start your tech career with ThinkLikeDev." />
     <meta property="og:url" content="https://thinklikedev.studio/" />
     <meta property="og:type" content="website" />
-    <!-- Optional: Add an image for social preview -->
-    <!--<meta property="og:image" content="https://yourdomain.com/preview.jpg" />-->
+    <meta property="og:image" content="https://thinklikedev.studio/logo.png" />
 
-    <!-- SEO Boost: Twitter Card Meta -->
-    <meta name="twitter:title" content="ThinkLikeDev – Developer Jobs, Blogs & Coding Resources" />
-    <meta name="twitter:description" content="Explore tech jobs, helpful blog articles, and practical resources for developers at ThinkLikeDev." />
-    <!--<meta name="twitter:image" content="https://yourdomain.com/preview.jpg" />-->
+    <!-- Twitter Card Meta -->
+    <meta name="twitter:title" content="Developer Jobs | Coding Resources | ThinkLikeDev" />
+    <meta name="twitter:description" content="Explore top developer jobs, coding blogs, and free learning resources at ThinkLikeDev." />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://thinklikedev.studio/logo.png" />
 
-    <!-- SEO Boost: Robots Meta -->
+    <!-- SEO Robots Meta -->
     <meta name="robots" content="index, follow" />
 
-    <!-- Optional: Smooth scroll behavior -->
-
-    <!-- Optional: Prevent layout shift while fonts load -->
+    <!-- Prevent Layout Shift While Fonts Load -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" />
     <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
-        rel="stylesheet"
-      />
+      <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet" />
     </noscript>
-    
-    <!-- SEO Boost: Site Manifest (optional, improves mobile experience) -->
-    <!--<link rel="manifest" href="/site.webmanifest">-->
 
-    <!-- SEO Boost: Structured Data (optional, for rich results) -->
+    <!-- Structured Data: Logo for Enhanced Search -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "ThinkLikeDev",
         "url": "https://thinklikedev.studio/",
-        "description": "Developer jobs, tech blogs, and free resources for coding professionals and learners."
+        "description": "Developer jobs, tech blogs, coding resources, programming tutorials, and career advice for software engineers and web developers.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "ThinkLikeDev",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://thinklikedev.studio/logo.png",
+            "width": 512,
+            "height": 512
+          }
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://thinklikedev.studio/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
       }
     </script>
+
+    <!-- Viewport and Compatibility -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   </head>
   <body>
-    
     <main id="root"></main>
-    
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
