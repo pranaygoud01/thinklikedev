@@ -44,9 +44,9 @@ const Footer = () => {
         <div className="flex flex-col gap-3 w-full md:w-1/3">
           <h3 className="font-semibold text-sm mb-2">Stay Updated</h3>
           <form className="flex gap-2">
-            <input 
-              type="email" 
-              placeholder="Your Email" 
+            <input
+              type="email"
+              placeholder="Your Email"
               className="bg-neutral-800 text-xs px-3 py-2 rounded focus:outline-none w-full"
             />
             <button type="submit" className="bg-white text-black text-xs px-4 py-2 rounded hover:bg-neutral-200">Subscribe</button>

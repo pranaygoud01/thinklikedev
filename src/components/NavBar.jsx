@@ -12,20 +12,8 @@ const NavBar = () => {
 
   return (
     <>
-      {/* Inline CSS for sidebar slide-in animation */}
-      <style>{`
-        .mobile-drawer {
-          transform: translateX(100%);
-          transition: transform 0.25s cubic-bezier(.4,0,.2,1);
-        }
-        .mobile-drawer.open {
-          transform: translateX(0);
-        }
-        .mobile-overlay {
-          backdrop-filter: blur(2px);
-        }
-      `}</style>
-      <div className="h-[60px] bg-white flex justify-between sticky top-0 border-b border-b-neutral-300 px-4 md:px-10 items-center z-50">
+
+      <div className="h-[60px] bg-white flex justify-between sticky top-0 border-b border-b-neutral-100 px-4 md:px-10 items-center z-50">
         <Link to="/" className="font-bold text-lg">
           ThinkLikeDev.
         </Link>
@@ -57,17 +45,15 @@ const NavBar = () => {
         </button>
         {/* Mobile Drawer with Animation */}
         <div
-          className={`fixed inset-0 h-[95vh] top-15 z-50 md:hidden ${isOpen ? "block" : "hidden"}`}
+          className={`fixed inset-0 h-[95vh] top-[60px] z-50 md:hidden transition-all duration-300 ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`}
         >
           <div
-            className="absolute inset-0 bg-black bg-opacity-40 mobile-overlay"
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             onClick={closeMenu}
           />
           {/* White Drawer Panel */}
           <div
-            className={`absolute right-0 top-0 w-4/5 sm:w-2/5 h-full bg-white flex flex-col py-6 px-6 shadow-lg mobile-drawer ${
-              isOpen ? "open" : ""
-            }`}
+            className={`absolute right-0 top-0 w-4/5 sm:w-2/5 h-full bg-white flex flex-col py-6 px-6 shadow-lg transition-transform duration-300 ease-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
             style={{ position: "absolute", right: 0, top: 0 }}
           >
             {/* Vertical ThinkLikeDev label on the left edge, bottom-to-top */}
@@ -94,7 +80,7 @@ const NavBar = () => {
               ThinkLikeDev.
             </Link>
             {/* Close Button at Top Right */}
-            
+
             <nav className="flex flex-col gap-4 mt-3">
               {menu.map((item, index) => (
                 <Link

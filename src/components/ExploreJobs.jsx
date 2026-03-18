@@ -40,8 +40,8 @@ const jobs = [
 ];
 
 const ExploreJobs = () => {
-    const [selectedJob, setSelectedJob] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   return (
     <div className="w-full bg-white max-lg:mt-5 text-black p-4 sm:p-8 md:p-10">
       {/* Header */}
