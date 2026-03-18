@@ -35,7 +35,7 @@ const Feature = () => {
     <div className="w-full min-h-screen py-10 px-4 md:px-10 flex flex-col md:flex-row gap-8">
       {/* Text Section */}
       <div className="md:w-1/2 w-full flex flex-col gap-5 justify-center md:pl-10">
-        <p className="text-[9px] text-white bg-black px-2 py-1 w-fit">Unique</p>
+        <p className="text-[9px] text-white bg-black px-2 py-1 w-fit rounded">Unique</p>
         <h1 className="font-semibold text-2xl">
           What Makes ThinkLikeDev Unique?
         </h1>
@@ -44,7 +44,7 @@ const Feature = () => {
           {features.map((item, index) => (
             <div
               key={index}
-              className="text-sm p-5 hover:shadow cursor-pointer flex flex-col gap-1 border border-neutral-300 rounded-xl bg-white"
+              className="text-sm p-5 hover:shadow cursor-pointer flex flex-col gap-1 border border-black/10 rounded-xl bg-white"
             >
               <span className="text-2xl">{item.icon}</span>
               <h1 className="mt-4">

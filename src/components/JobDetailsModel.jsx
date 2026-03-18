@@ -24,7 +24,7 @@ const JobDetailsModal = ({ job, show, onClose }) => {
         <div className="mb-5 text-sm text-neutral-600">
           {job.description || "No description provided."}
         </div>
-        <button className="w-full cursor-pointer py-2 bg-[#222] text-white rounded-lg font-semibold hover:bg-black transition">
+        <button className="w-full cursor-pointer py-2 bg-black text-white rounded-lg font-semibold hover:bg-black/80 transition">
           Apply Now
         </button>
       </div>

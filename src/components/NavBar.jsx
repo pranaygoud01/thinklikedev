@@ -23,14 +23,14 @@ const NavBar = () => {
             <Link
               to={item === "Home" ? "/" : `/${item.toLowerCase().replace(/\s+/g, "")}`}
               key={index}
-              className="px-4 text-xs py-2 hover:text-blue-600 transition-colors"
+              className="px-4 text-xs py-2 hover:text-black/60 transition-colors"
             >
               {item}
             </Link>
           ))}
           <Link
             to="/about"
-            className="font-semibold text-[10px] px-4 py-2 h-fit bg-black text-white hover:bg-neutral-800 rounded transition-colors"
+            className="font-semibold text-[10px] px-4 py-2 h-fit bg-black text-white hover:bg-black/80 rounded transition-colors"
           >
             About
           </Link>
@@ -86,7 +86,7 @@ const NavBar = () => {
                 <Link
                   to={item === "Home" ? "/" : `/${item.toLowerCase().replace(/\s+/g, "")}`}
                   key={index}
-                  className="text-base font-medium hover:text-blue-600 transition-colors"
+                  className="text-base font-medium hover:text-black/60 transition-colors"
                   onClick={closeMenu}
                 >
                   {item}
@@ -95,7 +95,7 @@ const NavBar = () => {
               <Link
                 to="/about"
                 onClick={closeMenu}
-                className="font-semibold text-sm w-fit px-4 py-2 bg-black text-white hover:bg-neutral-800 rounded transition-colors"
+                className="font-semibold text-sm w-fit px-4 py-2 bg-black text-white hover:bg-black/80 rounded transition-colors"
               >
                 About
               </Link>

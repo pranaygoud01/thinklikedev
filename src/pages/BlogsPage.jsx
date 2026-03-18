@@ -59,28 +59,29 @@ const BlogsPage = () => {
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col">
-      {/* Header */}
-      <div className="w-full bg-black py-12 sm:py-16 flex flex-col items-center mb-6 px-3 sm:px-4">
-        <h1 className="text-white text-xl sm:text-4xl font-bold mb-2 text-center">
+      {/* Crisp Header */}
+      <div className="w-full bg-black pt-16 pb-24 flex flex-col items-center px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/10 pointer-events-none" />
+        <h1 className="text-white text-3xl sm:text-5xl font-extrabold mb-4 text-center tracking-tight z-10 drop-shadow-sm">
           Developer Blogs & Guides
         </h1>
-        <p className="text-neutral-300 text-sm max-w-xl text-center">
+        <p className="text-white/90 text-sm sm:text-base max-w-2xl text-center z-10 font-medium">
           Dive into actionable tutorials, dev stories, and tech news curated for your growth.
         </p>
       </div>
 
-      {/* Search Bar */}
-      <div className="flex justify-center mb-8 px-5 sm:px-6">
-        <div className="w-full max-w-xl flex items-center border border-neutral-300 rounded-lg px-3 py-2 bg-white shadow-sm">
-          <CiSearch className="text-neutral-500 text-xl mr-2" />
+      {/* Floating Search Bar */}
+      <div className="flex justify-center -mt-8 mb-12 px-5 sm:px-6 relative z-20">
+        <div className="w-full max-w-2xl flex items-center border border-black/10 rounded-xl px-4 py-3 sm:py-4 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow focus-within:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+          <CiSearch className="text-black/40 text-2xl sm:text-3xl mr-3 sm:mr-4" />
           <input
             type="text"
             placeholder="Search blogs by title, category, or keywords..."
-            className="w-full text-sm focus:outline-none bg-transparent"
+            className="w-full text-sm sm:text-base focus:outline-none bg-transparent placeholder:text-black/40 text-black font-semibold"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
-              setPage(1); // reset to first page on search
+              setPage(1);
             }}
           />
         </div>
@@ -92,12 +93,14 @@ const BlogsPage = () => {
           {currentBlogs.map((post, i) => (
             <div
               key={i}
-              className="flex flex-col bg-neutral-50 border border-neutral-200 rounded-xl overflow-hidden hover:shadow transition h-[420px] sm:h-[440px]"
+              className="group flex flex-col bg-white border border-black/10 rounded-2xl overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 h-[420px] sm:h-[440px]"
             >
-              <div
-                className="h-40 sm:h-44 w-full bg-cover bg-center"
-                style={{ backgroundImage: `url(${post.image})` }}
-              />
+              <div className="h-44 sm:h-48 w-full overflow-hidden">
+                <div
+                  className="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                  style={{ backgroundImage: `url(${post.image})` }}
+                />
+              </div>
               <div className="flex-1 flex flex-col justify-between p-4 sm:p-5">
                 <div>
                   <div className="text-neutral-500 text-xs uppercase mb-1">
@@ -112,7 +115,7 @@ const BlogsPage = () => {
                 </div>
                 <a
                   href={post.link}
-                  className="inline-block mt-auto py-1.5 px-4 text-xs font-semibold border border-black rounded hover:bg-black hover:text-white transition w-fit"
+                  className="inline-block mt-auto py-1.5 px-4 text-xs font-semibold border border-black text-black rounded hover:bg-black hover:text-white transition w-fit"
                 >
                   Read More
                 </a>
@@ -133,9 +136,8 @@ const BlogsPage = () => {
           <button
             onClick={() => setPage(page - 1)}
             disabled={page === 1}
-            className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${
-              page === 1 ? "opacity-40 cursor-not-allowed" : ""
-            }`}
+            className={`p-2 rounded-full border border-black/20 bg-black/5 hover:bg-black/10 transition text-black/70 ${page === 1 ? "opacity-40 cursor-not-allowed" : ""
+              }`}
             aria-label="Previous page"
           >
             <IoIosArrowBack />
@@ -144,11 +146,10 @@ const BlogsPage = () => {
             <button
               key={i}
               onClick={() => setPage(i + 1)}
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border ${
-                page === i + 1
-                  ? "bg-black text-white border-black"
-                  : "bg-white border-neutral-300 text-black hover:bg-neutral-100"
-              }`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border ${page === i + 1
+                ? "bg-black text-white border-black"
+                : "bg-white border-black/20 text-black hover:bg-black/5"
+                }`}
               aria-current={page === i + 1 ? "page" : undefined}
             >
               {i + 1}
@@ -157,15 +158,28 @@ const BlogsPage = () => {
           <button
             onClick={() => setPage(page + 1)}
             disabled={page === totalPages}
-            className={`p-2 rounded-full border bg-neutral-100 hover:bg-neutral-200 transition ${
-              page === totalPages ? "opacity-40 cursor-not-allowed" : ""
-            }`}
+            className={`p-2 rounded-full border border-black/20 bg-black/5 hover:bg-black/10 transition text-black/70 ${page === totalPages ? "opacity-40 cursor-not-allowed" : ""
+              }`}
             aria-label="Next page"
           >
             <IoIosArrowForward />
           </button>
         </div>
       )}
+
+      {/* Newsletter CTA Component */}
+      <div className="w-full max-w-5xl mx-auto mt-6 mb-20 px-5 sm:px-10">
+        <div className="bg-black/5 border border-black/10 rounded-2xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 h-full">
+          <div className="text-center md:text-left">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">Stay in the loop</h2>
+            <p className="text-black/60 text-sm sm:text-base max-w-md font-medium">Get the freshest dev news, exclusive guides, and insights delivered straight to your inbox.</p>
+          </div>
+          <div className="flex w-full md:w-auto max-w-md gap-3">
+            <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 text-sm sm:text-base border border-black/20 rounded-xl focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all font-medium" />
+            <button className="bg-black text-white px-6 py-3 rounded-xl text-sm sm:text-base font-bold hover:bg-black/80 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">Subscribe</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

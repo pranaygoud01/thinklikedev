@@ -54,7 +54,7 @@ const ExploreJobs = () => {
             Find Your Next Opportunity
           </p>
         </div>
-        <Link to="/findjobs" className="border border-black text-xs sm:text-base px-3 sm:px-4 py-2 rounded hover:bg-neutral-100 transition-all">
+        <Link to="/findjobs" className="border border-black text-black hover:bg-black hover:text-white text-xs sm:text-base px-3 sm:px-4 py-2 rounded transition-all">
           View All Jobs
         </Link>
       </div>
@@ -63,7 +63,7 @@ const ExploreJobs = () => {
         {jobs.map((job, idx) => (
           <div
             key={idx}
-            className="flex flex-col justify-between bg-neutral-50 border border-neutral-200 rounded-lg p-4 sm:p-6 hover:shadow transition-all h-auto min-h-[230px] sm:min-h-[250px] md:min-h-[280px]"
+            className="flex flex-col justify-between bg-white border border-black/10 rounded-lg p-4 sm:p-6 hover:shadow transition-all h-auto min-h-[230px] sm:min-h-[250px] md:min-h-[280px]"
           >
             <div>
               <div className="flex items-center gap-3 mb-2">
@@ -89,7 +89,7 @@ const ExploreJobs = () => {
             <div className="mt-6 flex items-center justify-between">
               <span className="text-xs text-neutral-400">{job.posted}</span>
               <button
-                className="flex items-center gap-1 text-xs font-medium hover:text-blue-600 hover:underline transition"
+                className="flex items-center gap-1 text-xs font-medium hover:text-black/60 hover:underline transition"
                 onClick={() => {
                   setSelectedJob(job);
                   setShowModal(true);
