@@ -4,44 +4,44 @@ import { BsBuilding, BsGeoAlt } from "react-icons/bs";
 import JobDetailsModal from "./JobDetailsModel";
 import { Link } from "@tanstack/react-router";
 
-const jobs = [
-  {
-    title: "Frontend Developer",
-    company: "TechNova",
-    location: "Remote",
-    posted: "2 days ago",
-    type: "Full-time",
-    logo: "https://avatars.githubusercontent.com/u/6730767?v=4",
-  },
-  {
-    title: "Backend Engineer",
-    company: "CloudWare",
-    location: "Bangalore",
-    posted: "4 days ago",
-    type: "Remote",
-    logo: "https://avatars.githubusercontent.com/u/69631?v=4",
-  },
-  {
-    title: "DevOps Specialist",
-    company: "InfraSys",
-    location: "Pune",
-    posted: "1 day ago",
-    type: "Hybrid",
-    logo: "https://avatars.githubusercontent.com/u/17522643?v=4",
-  },
-  {
-    title: "UI/UX Designer",
-    company: "CreativeX",
-    location: "Delhi",
-    posted: "3 days ago",
-    type: "Full-time",
-    logo: "https://avatars.githubusercontent.com/u/9892522?v=4",
-  },
-];
-
 const ExploreJobs = () => {
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedJob, setSelectedJob] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  React.useEffect(() => {
+    fetchLatestJobs();
+  }, []);
+
+  const fetchLatestJobs = async () => {
+    try {
+      // Fetch jobs from backend, perhaps limited to 4 natively if backend supports it, else we slice
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/jobs?limit=4`);
+      const data = await res.json();
+      
+      const formattedJobs = (data.jobs || []).slice(0, 4).map(job => {
+        const daysAgo = Math.floor((new Date() - new Date(job.createdAt)) / (1000 * 60 * 60 * 24));
+        const posted = daysAgo === 0 ? 'Today' : daysAgo === 1 ? 'Yesterday' : `${daysAgo} days ago`;
+        return {
+          ...job, 
+          id: job._id,
+          title: job.title,
+          company: job.company,
+          location: job.location,
+          posted: posted,
+          type: job.type,
+          logo: job.logo,
+          description: job.description
+        };
+      });
+      setJobs(formattedJobs);
+    } catch (error) {
+      console.error("Failed to fetch jobs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="w-full bg-white max-lg:mt-5 text-black p-4 sm:p-8 md:p-10">
       {/* Header */}
@@ -59,8 +59,13 @@ const ExploreJobs = () => {
         </Link>
       </div>
       {/* Jobs Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 md:gap-8">
-        {jobs.map((job, idx) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 md:gap-8 min-h-[250px]">
+        {loading ? (
+          <div className="col-span-full flex justify-center items-center text-neutral-500 font-medium">Loading top active jobs...</div>
+        ) : jobs.length === 0 ? (
+          <div className="col-span-full flex justify-center items-center text-neutral-500">No jobs posted yet.</div>
+        ) : (
+        jobs.map((job, idx) => (
           <div
             key={idx}
             className="flex flex-col justify-between bg-white border border-black/10 rounded-lg p-4 sm:p-6 hover:shadow transition-all h-auto min-h-[230px] sm:min-h-[250px] md:min-h-[280px]"
@@ -99,7 +104,8 @@ const ExploreJobs = () => {
               </button>
             </div>
           </div>
-        ))}
+        ))
+        )}
       </div>
       <JobDetailsModal
         job={selectedJob}

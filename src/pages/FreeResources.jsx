@@ -1,74 +1,50 @@
 // src/components/FreeResources.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowBack, IoIosArrowForward, IoIosArrowRoundForward } from "react-icons/io";
 import { BsBook, BsCode, BsPlug, BsFilm } from "react-icons/bs";
-
-// Resource mock data
-const resourceList = [
-  {
-    title: "JavaScript Essentials (Course)",
-    type: "Course",
-    categoryIcon: <BsCode />,
-    link: "#",
-    description: "Master JavaScript with hands-on video tutorials and projects.",
-    image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Developer Productivity Cheatsheet",
-    type: "E-Book",
-    categoryIcon: <BsBook />,
-    link: "#",
-    description: "A concise guide to speed up your workflow as a coder.",
-    image:
-      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Open-Source CLI Tools",
-    type: "Tool",
-    categoryIcon: <BsPlug />,
-    link: "#",
-    description: "A curated collection of must-have developer CLI utilities.",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Responsive Web Design (Course)",
-    type: "Course",
-    categoryIcon: <BsFilm />,
-    link: "#",
-    description: "Free video course to make websites work on any device.",
-    image:
-      "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "Python Crash Guide",
-    type: "E-Book",
-    categoryIcon: <BsBook />,
-    link: "#",
-    description: "Quickly pick up the Python basics and syntax.",
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    title: "GitHub Actions Toolkit",
-    type: "Tool",
-    categoryIcon: <BsPlug />,
-    link: "#",
-    description: "Boost CI/CD workflows with ready-to-use GitHub Actions.",
-    image:
-      "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=800&auto=format&fit=crop",
-  },
-  // ...add more if you wish
-];
 
 // Controls how many show per page
 const RESOURCES_PER_PAGE = 8;
 const resourceTypes = ["All", "Course", "E-Book", "Tool"];
 
 const FreeResources = () => {
+  const [resourceList, setResourceList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [typeFilter, setTypeFilter] = useState("All");
+
+  useEffect(() => {
+    fetchResources();
+  }, []);
+
+  const fetchResources = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/resources`);
+      const data = await res.json();
+
+      const getIcon = (type) => {
+        if (type === 'Course') return <BsCode />;
+        if (type === 'E-Book') return <BsBook />;
+        if (type === 'Tool') return <BsPlug />;
+        return <BsBook />; // default
+      };
+
+      const formattedResources = (data.resources || []).map(res => ({
+        id: res._id,
+        title: res.title,
+        type: res.type,
+        categoryIcon: getIcon(res.type),
+        link: res.link,
+        description: res.description,
+        image: res.image
+      }));
+      setResourceList(formattedResources);
+    } catch (error) {
+      console.error("Failed to fetch resources:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Filtering logic
   const filteredResources =
@@ -87,8 +63,12 @@ const FreeResources = () => {
 
   // Ensures page doesn't get out of bounds
   React.useEffect(() => {
-    if (page > totalPages) setPage(1);
+    if (page > totalPages && totalPages > 0) setPage(1);
   }, [typeFilter, totalPages, page]);
+
+  if (loading) {
+    return <div className="min-h-screen bg-white flex justify-center items-center text-xl font-medium">Loading resources...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col">
@@ -214,7 +194,7 @@ const FreeResources = () => {
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">Stay in the loop</h2>
             <p className="text-black/60 text-sm sm:text-base max-w-md font-medium">Get the freshest dev news, exclusive guides, and insights delivered straight to your inbox.</p>
           </div>
-          <div className="flex w-full md:w-auto max-w-md gap-3">
+          <div className="flex w-full max-lg:flex-wrap md:w-auto max-w-md gap-3">
             <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 text-sm sm:text-base border border-black/20 rounded-xl focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all font-medium" />
             <button className="bg-black text-white px-6 py-3 rounded-xl text-sm sm:text-base font-bold hover:bg-black/80 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">Subscribe</button>
           </div>

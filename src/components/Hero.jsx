@@ -6,11 +6,11 @@ const Hero = () => {
   return (
     <div className="relative w-full px-4 sm:px-8 md:px-10 py-12 md:py-20 flex flex-col items-center justify-center text-center overflow-hidden">
       {/* Background glow for a modern aesthetic */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-64 bg-neutral-200/50 blur-[100px] -z-10 rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-64 bg-neutral-50/50 blur-[100px] -z-10 rounded-full pointer-events-none"></div>
 
       {/* Modern Badge */}
       <div className="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-medium border border-black/10 rounded-full bg-white text-black/70">
-        <span className="flex h-2 w-2 rounded-full bg-black animate-pulse"></span>
+        <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
         Platform is Live
       </div>
 

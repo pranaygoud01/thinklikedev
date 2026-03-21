@@ -8,100 +8,52 @@ import { BsBuilding, BsGeoAlt } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import JobDetailsModal from "../components/JobDetailsModel";
 
-// Mock job data
-const mockJobs = [
-  {
-    title: "Frontend Developer",
-    company: "TechNova",
-    location: "Remote",
-    posted: "2 days ago",
-    type: "Full-time",
-    logo: "https://avatars.githubusercontent.com/u/6730767?v=4",
-    description:
-      "As a Frontend Developer at TechNova, you'll build innovative UIs with React, collaborate with product designers, and deliver seamless experiences.",
-  },
-  {
-    title: "Backend Engineer",
-    company: "CloudWare",
-    location: "Bangalore",
-    posted: "4 days ago",
-    type: "Remote",
-    logo: "https://avatars.githubusercontent.com/u/69631?v=4",
-    description:
-      "Join our backend team to develop scalable APIs, work with cloud microservices, and ensure high performance applications.",
-  },
-  {
-    title: "DevOps Specialist",
-    company: "InfraSys",
-    location: "Pune",
-    posted: "1 day ago",
-    type: "Hybrid",
-    logo: "https://avatars.githubusercontent.com/u/17522643?v=4",
-    description:
-      "Implement CI/CD pipelines, automate infrastructure, and support platform reliability as a DevOps Specialist at InfraSys.",
-  },
-  {
-    title: "UI/UX Designer",
-    company: "CreativeX",
-    location: "Delhi",
-    posted: "3 days ago",
-    type: "Full-time",
-    logo: "https://avatars.githubusercontent.com/u/9892522?v=4",
-    description:
-      "Design beautiful digital products, conduct user research, and create wireframes for high-impact solutions.",
-  },
-  {
-    title: "React Native Specialist",
-    company: "AppLab",
-    location: "Mumbai",
-    posted: "Today",
-    type: "Remote",
-    logo: "https://avatars.githubusercontent.com/u/17189275?v=4",
-    description:
-      "Build cross-platform mobile experiences with React Native and collaborate with world-class product teams.",
-  },
-  {
-    title: "Full Stack Developer",
-    company: "Stackly",
-    location: "Remote",
-    posted: "5 days ago",
-    type: "Full-time",
-    logo: "https://avatars.githubusercontent.com/u/32763507?v=4",
-    description:
-      "Work on frontend and backend to create fully integrated web applications and lead project implementation.",
-  },
-  {
-    title: "Data Scientist",
-    company: "Analytica",
-    location: "Chennai",
-    posted: "Yesterday",
-    type: "Hybrid",
-    logo: "https://avatars.githubusercontent.com/u/38437257?v=4",
-    description:
-      "Analyze large datasets, build ML models, and drive business insights with data at Analytica.",
-  },
-  {
-    title: "Product Manager",
-    company: "NextGen",
-    location: "Remote",
-    posted: "1 week ago",
-    type: "Full-time",
-    logo: "https://avatars.githubusercontent.com/u/17446879?v=4",
-    description:
-      "Define product vision and strategy, lead cross-functional teams, and launch innovative products to market.",
-  },
-  // ...repeat if you want more jobs for pagination
-];
-
 const JOBS_PER_PAGE = 8;
 
 const FindJobs = () => {
+  const [mockJobs, setMockJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
   // Modal state
   const [selectedJob, setSelectedJob] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/jobs`);
+      const data = await res.json();
+
+      // We map the backend job structure to the structure expected by the frontend
+      const formattedJobs = (data.jobs || []).map(job => {
+        // Simple relative time formatter
+        const daysAgo = Math.floor((new Date() - new Date(job.createdAt)) / (1000 * 60 * 60 * 24));
+        const posted = daysAgo === 0 ? 'Today' : daysAgo === 1 ? 'Yesterday' : `${daysAgo} days ago`;
+
+        return {
+          ...job, // keep original details for the modal
+          id: job._id,
+          title: job.title,
+          company: job.company,
+          location: job.location,
+          posted: posted,
+          type: job.type,
+          logo: job.logo,
+          description: job.description
+        };
+      });
+      setMockJobs(formattedJobs);
+    } catch (error) {
+      console.error("Failed to fetch jobs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Filter jobs based on search term
   const filteredJobs = mockJobs.filter((job) =>
@@ -116,10 +68,13 @@ const FindJobs = () => {
   const startIdx = (page - 1) * JOBS_PER_PAGE;
   const currentJobs = filteredJobs.slice(startIdx, startIdx + JOBS_PER_PAGE);
 
-  // Reset to page 1 on search
   useEffect(() => {
     setPage(1);
   }, [search]);
+
+  if (loading) {
+    return <div className="min-h-screen bg-white flex justify-center items-center text-xl font-medium">Loading opportunities...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -224,8 +179,8 @@ const FindJobs = () => {
                 key={i}
                 onClick={() => setPage(i + 1)}
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border ${page === i + 1
-                    ? "bg-black text-white border-black"
-                    : "bg-white border-black/20 text-black hover:bg-black/5"
+                  ? "bg-black text-white border-black"
+                  : "bg-white border-black/20 text-black hover:bg-black/5"
                   }`}
               >
                 {i + 1}
@@ -249,7 +204,7 @@ const FindJobs = () => {
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">Stay in the loop</h2>
             <p className="text-black/60 text-sm sm:text-base max-w-md font-medium">Get the freshest dev news, exclusive jobs, and insights delivered straight to your inbox.</p>
           </div>
-          <div className="flex w-full md:w-auto max-w-md gap-3">
+          <div className="flex max-lg:flex-wrap w-full md:w-auto max-w-md gap-3">
             <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 text-sm sm:text-base border border-black/20 rounded-xl focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all font-medium" />
             <button className="bg-black text-white px-6 py-3 rounded-xl text-sm sm:text-base font-bold hover:bg-black/80 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">Subscribe</button>
           </div>

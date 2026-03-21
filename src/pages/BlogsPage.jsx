@@ -1,49 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
-
-// Mock blog data
-const blogPosts = [
-  {
-    title: "5 Productivity Hacks for Busy Developers",
-    category: "Productivity",
-    date: "2025-07-19",
-    image: "https://images.unsplash.com/photo-1752834370400-da734c87f565?q=80&w=2070&auto=format&fit=crop",
-    excerpt: "Boost your workflow with actionable productivity tips made just for coders. From setting daily priorities to using the right tools, these hacks will keep you ahead.",
-    link: "#",
-  },
-  {
-    title: "Understanding React Server Components",
-    category: "Web Development",
-    date: "2025-07-15",
-    image: "https://images.unsplash.com/photo-1752867494500-9ea9322f58c9?q=80&w=1170&auto=format&fit=crop",
-    excerpt: "Get to grips with the next evolution in React. Learn how server components work, when to use them, and how they fit into modern frontend architectures.",
-    link: "#",
-  },
-  {
-    title: "How to Use Tailwind CSS Effectively",
-    category: "Design",
-    date: "2025-07-10",
-    image: "https://images.unsplash.com/photo-1752805252779-000e9d493b1f?q=80&w=1170&auto=format&fit=crop",
-    excerpt: "Transform your UI workflow! Discover practical Tailwind strategies for building flexible and maintainable user interfaces as a developer-designer.",
-    link: "#",
-  },
-  {
-    title: "Mastering MongoDB Aggregations",
-    category: "Backend",
-    date: "2025-07-05",
-    image: "https://images.unsplash.com/photo-1652992386209-afc1f96145f5?q=80&w=1112&auto=format&fit=crop",
-    excerpt: "Go beyond CRUD! Learn aggregation pipelines with real-world use cases to supercharge your MongoDB experience and solve complex data queries.",
-    link: "#",
-  },
-  // ...add more blog objects as needed
-];
 
 const BLOGS_PER_PAGE = 8;
 
 const BlogsPage = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const fetchBlogs = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/blogs`);
+      const data = await res.json();
+      const formattedBlogs = (data.blogs || []).map(blog => ({
+        id: blog._id,
+        title: blog.title,
+        category: blog.category || "Uncategorized",
+        date: new Date(blog.publishedAt || blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+        image: blog.image,
+        excerpt: blog.excerpt || (blog.content ? blog.content.substring(0, 150) + "..." : ""),
+        link: `/blog/${blog._id}`, // Link to single blog route
+      }));
+      setBlogPosts(formattedBlogs);
+    } catch (error) {
+      console.error("Failed to fetch blogs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredBlogs = blogPosts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -56,6 +47,10 @@ const BlogsPage = () => {
     (page - 1) * BLOGS_PER_PAGE,
     page * BLOGS_PER_PAGE
   );
+
+  if (loading) {
+    return <div className="min-h-screen bg-white flex justify-center items-center text-xl font-medium">Loading blogs...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col">
@@ -113,12 +108,12 @@ const BlogsPage = () => {
                     {post.excerpt}
                   </p>
                 </div>
-                <a
-                  href={post.link}
+                <Link
+                  to={post.link}
                   className="inline-block mt-auto py-1.5 px-4 text-xs font-semibold border border-black text-black rounded hover:bg-black hover:text-white transition w-fit"
                 >
                   Read More
-                </a>
+                </Link>
               </div>
             </div>
           ))}
@@ -174,7 +169,7 @@ const BlogsPage = () => {
             <h2 className="text-2xl sm:text-3xl font-bold mb-2 tracking-tight">Stay in the loop</h2>
             <p className="text-black/60 text-sm sm:text-base max-w-md font-medium">Get the freshest dev news, exclusive guides, and insights delivered straight to your inbox.</p>
           </div>
-          <div className="flex w-full md:w-auto max-w-md gap-3">
+          <div className="flex w-full max-lg:flex-wrap md:w-auto max-w-md gap-3">
             <input type="email" placeholder="Enter your email" className="flex-1 px-4 py-3 text-sm sm:text-base border border-black/20 rounded-xl focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition-all font-medium" />
             <button className="bg-black text-white px-6 py-3 rounded-xl text-sm sm:text-base font-bold hover:bg-black/80 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">Subscribe</button>
           </div>

@@ -1,9 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+import SingleBlog from '../../pages/SingleBlog'
 
 export const Route = createFileRoute('/blog/$id')({
-  component: RouteComponent,
+  component: SingleBlog,
 })
-
-function RouteComponent() {
-  return <div>Hello "/blog/$id"!</div>
-}

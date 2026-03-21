@@ -1,38 +1,34 @@
 import { Link } from "@tanstack/react-router";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 
 const PopularBlogs = () => {
-  const blogs = [
-    {
-      title: "5 Productivity Hacks for Busy Developers",
-      category: "Productivity",
-      date: "2025-07-19",
-      image:
-        "https://images.unsplash.com/photo-1752834370400-da734c87f565?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "Understanding React Server Components",
-      category: "Web Development",
-      date: "2025-07-15",
-      image:
-        "https://images.unsplash.com/photo-1752867494500-9ea9322f58c9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "How to Use Tailwind CSS Effectively",
-      category: "Design",
-      date: "2025-07-10",
-      image:
-        "https://images.unsplash.com/photo-1752805252779-000e9d493b1f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "Mastering MongoDB Aggregations",
-      category: "Backend",
-      date: "2025-07-05",
-      image:
-        "https://images.unsplash.com/photo-1652992386209-afc1f96145f5?q=80&w=1112&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ];
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchLatestBlogs();
+  }, []);
+
+  const fetchLatestBlogs = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/blogs?limit=4`);
+      const data = await res.json();
+      
+      const formattedBlogs = (data.blogs || []).slice(0, 4).map(blog => ({
+        id: blog._id,
+        title: blog.title,
+        category: blog.category || "Uncategorized",
+        date: new Date(blog.publishedAt || blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+        image: blog.image,
+      }));
+      setBlogs(formattedBlogs);
+    } catch (error) {
+      console.error("Failed to fetch latest blogs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="w-full flex flex-col gap-5 text-white bg-black p-5 max-lg:pt-10 md:p-8 lg:p-10 h-fit">
@@ -60,10 +56,13 @@ const PopularBlogs = () => {
               <p className="font-semibold text-white line-clamp-3 text-lg md:text-xl">
                 {item.title}
               </p>
-              <button className="text-xs w-fit hover:border-b cursor-pointer flex items-center gap-1">
+              <Link 
+                to={`/blog/${item.id}`} 
+                className="text-xs w-fit hover:border-b cursor-pointer flex items-center gap-1"
+              >
                 Read More
                 <IoIosArrowRoundForward className="text-xl" />
-              </button>
+              </Link>
             </div>
           </div>
         ))}
